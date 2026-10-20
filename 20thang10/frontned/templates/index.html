@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Gửi {{ name }} 💖</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <!-- Trái tim hạt 3D + sao nền -->
+  <canvas id="scene" tabindex="0" role="img"
+          aria-label="Trái tim lấp lánh. Kéo để xoay, chạm để tim nổ tung rồi tụ lại"></canvas>
+
+  <!-- Mưa trái tim rơi -->
+  <div class="rain" id="rain" aria-hidden="true"></div>
+
+  <main class="stage">
+    <header class="top">
+      <p class="small">Gửi {{ name }}</p>
+      <h1 class="title">{{ title }}</h1>
+    </header>
+
+    <footer class="bottom">
+      <p class="hint" id="hint" aria-live="polite"
+         data-default="Chạm vào trái tim nhé 💗"
+         data-messages='{{ tap_messages|tojson }}'>chạm vô trái tim di 💗</p>
+      <button class="btn" id="openBtn" type="button">Mở thư 💌</button>
+    </footer>
+  </main>
+
+  <!-- Cửa sổ lá thư -->
+  <div class="modal" id="letterModal" hidden>
+    <div class="modal-box" role="dialog" aria-modal="true" aria-label="Lá thư">
+      <button class="close" type="button" data-close aria-label="Đóng">✕</button>
+      <h2 class="modal-title">Thư gửi {{ name }} 💌</h2>
+
+      <div class="letter">
+        {% for line in letter %}
+        <p>{{ line }}</p>
+        {% endfor %}
+        <p class="sign">{{ signature }} 💕</p>
+      </div>
+
+      <div class="actions">
+        <button class="btn" id="memoryBtn" type="button">Xem thêm 📸</button>
+        <button class="btn btn-ghost" id="feedbackBtn" type="button">feedback 💬</button>
+        <button class="btn btn-ghost" id="moreBtn" type="button">thích thì bấm dô đây thả thêm timmmm 🌸</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cửa sổ kỷ niệm -->
+  <div class="modal" id="memoryModal" hidden>
+    <div class="modal-box" role="dialog" aria-modal="true" aria-label="Kỷ niệm của hai đứa">
+      <button class="close" type="button" data-close aria-label="Đóng">✕</button>
+      <h2 class="modal-title">📸</h2>
+
+      <div class="gallery" id="gallery">
+        <button class="nav prev" id="prevBtn" type="button" aria-label="Ảnh trước">‹</button>
+        <figure class="photo">
+          <img id="photoImg" alt="">
+          <figcaption id="photoCap"></figcaption>
+        </figure>
+        <button class="nav next" id="nextBtn" type="button" aria-label="Ảnh sau">›</button>
+      </div>
+      <p class="empty" id="galleryEmpty" hidden>Chưa có ảnh nào. Hãy bỏ ảnh vào thư mục <b>images</b> rồi tải lại trang nhé.</p>
+      <p class="counter" id="photoCounter"></p>
+    </div>
+  </div>
+
+  <!-- Cửa sổ cảm nghĩ -->
+  <div class="modal" id="feedbackModal" hidden>
+    <div class="modal-box" role="dialog" aria-modal="true" aria-label="Gửi cảm nghĩ">
+      <button class="close" type="button" data-close aria-label="Đóng">✕</button>
+      <h2 class="modal-title">emiuu thấy duiii koo 💬</h2>
+
+      <form id="feedbackForm" novalidate>
+        <div class="moods" id="moods" role="radiogroup" aria-label="Cảm xúc">
+          <button type="button" class="mood" data-mood="😍" aria-label="Rất thích">😍</button>
+          <button type="button" class="mood" data-mood="🥰" aria-label="Hạnh phúc">🥰</button>
+          <button type="button" class="mood" data-mood="😊" aria-label="Vui">😊</button>
+          <button type="button" class="mood" data-mood="🥹" aria-label="Xúc động">🥹</button>
+        </div>
+        <textarea id="feedbackText" rows="5" maxlength="1500" placeholder="Em viết cảm nghĩ của em ở đây nhé..."></textarea>
+        <p class="form-msg" id="feedbackMsg" role="status"></p>
+        <button class="btn" id="sendBtn" type="submit">gửi anh 💌</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/heart.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
