@@ -115,7 +115,8 @@ def api_feedback():
         FEEDBACK_FILE.write_text(
             json.dumps(items, ensure_ascii=False, indent=2), encoding="utf-8"
         )
-
+    
+    print("FEEDBACK:", json.dumps(entry, ensure_ascii=False), flush=True)
     return jsonify({"ok": True})
 
 
